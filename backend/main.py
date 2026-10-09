@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from backend.db import init_db
+
+# Initialize database tables
+init_db()
 
 app = FastAPI(title="CampusSafe API")
 
