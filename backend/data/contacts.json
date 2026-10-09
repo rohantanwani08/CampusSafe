@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Rohan Admin",
+    "telegram_chat_id": "DUMMY_CHAT_ID_1",
+    "backup_contact_id": null,
+    "building": "Library",
+    "language": "English"
+  },
+  {
+    "id": 2,
+    "name": "Demo Student",
+    "telegram_chat_id": "DUMMY_CHAT_ID_2",
+    "backup_contact_id": 1,
+    "building": "Dorm A",
+    "language": "English"
+  },
+  {
+    "id": 3,
+    "name": "Amit Friend",
+    "telegram_chat_id": "DUMMY_CHAT_ID_3",
+    "backup_contact_id": null,
+    "building": "Science Block",
+    "language": "Hindi"
+  }
+]
