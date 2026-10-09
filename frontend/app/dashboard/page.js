@@ -8,6 +8,7 @@ import Timeline from "../../components/Timeline";
 import RecipientTable from "../../components/RecipientTable";
 import SmsPanel from "../../components/SmsPanel";
 import PersonDrawer from "../../components/PersonDrawer";
+import CampusMap from "../../components/CampusMap";
 
 function ElapsedTimer({ startedAt, endedAt }) {
   const [elapsed, setElapsed] = useState('');
@@ -207,28 +208,27 @@ export default function DashboardPage() {
         </header>
 
         {/* Dashboard Grid - Main Row */}
-        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6 min-h-[600px]">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6 lg:h-[600px]">
           {/* Status Column */}
           <div className="order-2 lg:order-1 lg:col-span-1 bg-surface border border-line rounded-lg p-6 flex flex-col">
             <Counters counters={data.counters} />
           </div>
           
           {/* Main Panel */}
-          <div className="order-5 lg:order-2 lg:col-span-2 bg-surface border border-line rounded-lg flex items-center justify-center text-muted">
-            <div className="text-center">
-              <svg className="w-12 h-12 mx-auto mb-3 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-              </svg>
-              <p>Map component goes here.</p>
-            </div>
+          <div className="order-1 lg:order-2 lg:col-span-2 bg-surface border border-line rounded-lg flex items-center justify-center text-muted overflow-hidden relative">
+            <CampusMap 
+              buildingsData={data.buildings} 
+              recipients={data.recipients} 
+              onPersonClick={setSelectedPerson} 
+            />
           </div>
           
           {/* Priority Queue & Summary Slot */}
-          <div className="order-3 lg:order-3 lg:col-span-1 flex flex-col space-y-6 lg:h-auto">
-            <div className="flex-[2] bg-surface border border-line rounded-lg overflow-hidden min-h-[400px]">
+          <div className="order-3 lg:order-3 lg:col-span-1 flex flex-col space-y-6 lg:h-full lg:min-h-0">
+            <div className="flex-[2] bg-surface border border-line rounded-lg overflow-hidden min-h-[400px] lg:min-h-0 flex flex-col">
               <PriorityQueue queue={data.priority_queue} onPersonClick={setSelectedPerson} />
             </div>
-            <div className="flex-1 bg-surface border border-line rounded-lg p-4 flex flex-col min-h-[150px]">
+            <div className="flex-1 bg-surface border border-line rounded-lg p-4 flex flex-col min-h-[150px] lg:min-h-0">
               <h2 className="text-sm font-semibold text-text mb-2">Right now</h2>
               <div className="flex-1 flex items-center justify-center text-muted text-sm border-2 border-dashed border-line rounded-md">
                 Summary slot

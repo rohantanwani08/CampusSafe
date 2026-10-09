@@ -18,11 +18,11 @@ def reset_demo(db: Session = Depends(get_db)):
     # Reset contacts to baseline 5
     db.query(Contact).delete()
     contacts = [
-        Contact(id=1, name="John Doe", telegram_chat_id="111111111", building="Library"),
-        Contact(id=2, name="Jane Smith", telegram_chat_id="222222222", building="Science Block", backup_contact_id=1),
-        Contact(id=3, name="Michael Chen", telegram_chat_id="333333333", building="Dorms"),
-        Contact(id=4, name="Sarah Jones", telegram_chat_id="444444444", building="Library"),
-        Contact(id=5, name="David Kim", telegram_chat_id="555555555", building="Arts Center", backup_contact_id=3),
+        Contact(id=1, name="John Doe", telegram_chat_id="111111111", building="library"),
+        Contact(id=2, name="Jane Smith", telegram_chat_id="222222222", building="academic-1", backup_contact_id=1),
+        Contact(id=3, name="Michael Chen", telegram_chat_id="333333333", building="hostel-a"),
+        Contact(id=4, name="Sarah Jones", telegram_chat_id="444444444", building="library"),
+        Contact(id=5, name="David Kim", telegram_chat_id="555555555", building="cafeteria", backup_contact_id=3),
     ]
     for c in contacts:
         db.add(c)
@@ -33,7 +33,7 @@ def reset_demo(db: Session = Depends(get_db)):
 def simulate_crowd_task(alert_id: int, db: Session):
     """Background task to simulate 40 people responding over 30 seconds"""
     # 1. Insert 40 dummy contacts and attach them to the alert
-    buildings = ["Library", "Science Block", "Dorms", "Arts Center", "Student Union"]
+    buildings = ["admin-block", "library", "academic-1", "academic-2", "hostel-a", "hostel-b", "cafeteria", "sports-complex"]
     first_names = ["Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Jamie", "Quinn"]
     last_names = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis"]
     

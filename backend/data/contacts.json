@@ -4,7 +4,7 @@
     "name": "Rohan Admin",
     "telegram_chat_id": "DUMMY_CHAT_ID_1",
     "backup_contact_id": null,
-    "building": "Library",
+    "building": "admin-block",
     "language": "English"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Demo Student",
     "telegram_chat_id": "DUMMY_CHAT_ID_2",
     "backup_contact_id": 1,
-    "building": "Dorm A",
+    "building": "hostel-a",
     "language": "English"
   },
   {
@@ -20,7 +20,23 @@
     "name": "Amit Friend",
     "telegram_chat_id": "DUMMY_CHAT_ID_3",
     "backup_contact_id": null,
-    "building": "Science Block",
+    "building": "academic-1",
     "language": "Hindi"
+  },
+  {
+    "id": 4,
+    "name": "Sarah Jones",
+    "telegram_chat_id": "DUMMY_CHAT_ID_4",
+    "backup_contact_id": 1,
+    "building": "library",
+    "language": "English"
+  },
+  {
+    "id": 5,
+    "name": "David Kim",
+    "telegram_chat_id": "DUMMY_CHAT_ID_5",
+    "backup_contact_id": 2,
+    "building": "cafeteria",
+    "language": "English"
   }
 ]

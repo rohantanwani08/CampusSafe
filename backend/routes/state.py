@@ -28,6 +28,12 @@ def get_dashboard_state(db: Session = Depends(get_db)):
     
     priority_queue = []
     all_recipients = []
+    
+    valid_buildings = ["admin-block", "library", "academic-1", "academic-2", "hostel-a", "hostel-b", "cafeteria", "sports-complex"]
+    buildings_data = {
+        b: {"id": b, "total": 0, "safe": 0, "help": 0, "unreachable": 0, "waiting": 0, "worst_status": None}
+        for b in valid_buildings
+    }
 
     for rec, contact in recipients_query:
         counters[rec.status] = counters.get(rec.status, 0) + 1
@@ -51,6 +57,18 @@ def get_dashboard_state(db: Session = Depends(get_db)):
 
         if rec.status in ("NEED_ASSISTANCE", "UNREACHABLE"):
             priority_queue.append(recipient_data)
+            
+        b_id = contact.building
+        if b_id in buildings_data:
+            buildings_data[b_id]["total"] += 1
+            if rec.status == "SAFE":
+                buildings_data[b_id]["safe"] += 1
+            elif rec.status == "NEED_ASSISTANCE":
+                buildings_data[b_id]["help"] += 1
+            elif rec.status == "UNREACHABLE":
+                buildings_data[b_id]["unreachable"] += 1
+            else:
+                buildings_data[b_id]["waiting"] += 1
 
     # Sort priority queue: NEED_ASSISTANCE first, then UNREACHABLE. Within status, urgency HIGH > MED > LOW, then responded_at
     urgency_map = {"HIGH": 3, "MEDIUM": 2, "LOW": 1, None: 0}
@@ -64,6 +82,17 @@ def get_dashboard_state(db: Session = Depends(get_db)):
         ), 
         reverse=True
     )
+
+    for b_data in buildings_data.values():
+        if b_data["total"] > 0:
+            if b_data["help"] > 0:
+                b_data["worst_status"] = "NEED_ASSISTANCE"
+            elif b_data["unreachable"] > 0:
+                b_data["worst_status"] = "UNREACHABLE"
+            elif b_data["waiting"] > 0:
+                b_data["worst_status"] = "PENDING"
+            else:
+                b_data["worst_status"] = "SAFE"
 
     # 3. Get recent events for the timeline
     events = db.query(Event).filter(Event.alert_id == alert.id).order_by(desc(Event.created_at)).limit(50).all()
@@ -101,6 +130,7 @@ def get_dashboard_state(db: Session = Depends(get_db)):
             "ended_at": alert.ended_at
         },
         "counters": counters,
+        "buildings": list(buildings_data.values()),
         "priority_queue": priority_queue,
         "recipients": all_recipients,
         "events": events_data,

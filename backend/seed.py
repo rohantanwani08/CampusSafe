@@ -11,11 +11,11 @@ def seed_db():
     
     print("Seeding contacts...")
     contacts = [
-        Contact(id=1, name="John Doe", telegram_chat_id="111111111", building="Library"),
-        Contact(id=2, name="Jane Smith", telegram_chat_id="222222222", building="Science Block", backup_contact_id=1),
-        Contact(id=3, name="Michael Chen", telegram_chat_id="333333333", building="Dorms"),
-        Contact(id=4, name="Sarah Jones", telegram_chat_id="444444444", building="Library"),
-        Contact(id=5, name="David Kim", telegram_chat_id="555555555", building="Arts Center", backup_contact_id=3),
+        Contact(id=1, name="John Doe", telegram_chat_id="111111111", building="library"),
+        Contact(id=2, name="Jane Smith", telegram_chat_id="222222222", building="academic-1", backup_contact_id=1),
+        Contact(id=3, name="Michael Chen", telegram_chat_id="333333333", building="hostel-a"),
+        Contact(id=4, name="Sarah Jones", telegram_chat_id="444444444", building="library"),
+        Contact(id=5, name="David Kim", telegram_chat_id="555555555", building="cafeteria", backup_contact_id=3),
     ]
     
     for c in contacts:
