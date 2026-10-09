@@ -51,28 +51,25 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 font-sans p-6">
-      {/* Bold Mode Banner across the top if alert is active */}
-      {data?.alert && (
-        <div className={`w-full py-2 text-center font-black tracking-[0.2em] text-sm shadow-lg z-50 sticky top-0 ${data.alert.mode === "real" ? "bg-red-600 text-white" : "bg-blue-600 text-white"}`}>
-          {data.alert.mode === "real" ? "REAL EMERGENCY IN PROGRESS" : "CAMPUS DRILL IN PROGRESS"}
-        </div>
-      )}
+    <div className="min-h-screen bg-bg text-text p-6">
+      {/* 3px top border across page based on mode */}
+      <div className={`fixed top-0 left-0 right-0 h-[3px] z-50 ${data?.alert?.mode === "real" ? "bg-help" : data?.alert?.mode === "drill" ? "bg-drill" : "bg-transparent"}`}></div>
 
       <div className="max-w-[95%] mx-auto mt-6">
         
         {/* Header */}
-        <header className={`flex justify-between items-center mb-6 border p-4 rounded-2xl shadow-xl bg-gray-900/80 backdrop-blur-md ${data?.alert?.mode === "real" ? "border-red-900/50" : "border-gray-800"}`}>
+        <header className="flex justify-between items-center mb-6 border border-line p-4 rounded-lg bg-surface">
           <div>
-            <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">
-              {data?.alert ? data.alert.message.substring(0, 40) + "..." : "CampusSafe Command Center"}
+            <h1 className="text-xl font-semibold text-text">
+              CampusSafe
+              {data?.alert && <span className="ml-2 font-normal text-muted">{data.alert.message.substring(0, 40) + "..."}</span>}
             </h1>
             <div className="flex items-center space-x-4 mt-2">
-              <span className={`px-2 py-0.5 rounded text-xs font-bold ${data?.alert?.mode === 'real' ? 'bg-red-900 text-red-300' : 'bg-blue-900 text-blue-300'}`}>
-                {data?.alert?.mode ? data.alert.mode.toUpperCase() : "STANDBY"}
+              <span className={`px-2 py-0.5 rounded text-xs font-medium ${data?.alert?.mode === 'real' ? 'bg-help/14 text-help' : 'bg-drill/14 text-drill'}`}>
+                {data?.alert?.mode === 'real' ? "Real alert" : data?.alert?.mode === 'drill' ? "Drill" : "Standby"}
               </span>
               {data?.alert && (
-                <span className="text-gray-400 text-xs font-mono bg-gray-950 px-2 py-1 rounded">
+                <span className="text-muted text-sm font-condensed">
                   Elapsed: 00:45
                 </span>
               )}
@@ -81,20 +78,14 @@ export default function DashboardPage() {
           
           <div className="text-right">
             {error ? (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-900/50 text-red-400 border border-red-800 animate-pulse">
-                Disconnected
+              <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-help/14 text-help border border-help/30">
+                Reconnecting
               </span>
             ) : (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">
-                <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+              <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-safe/14 text-safe border border-safe/30">
+                <span className="w-2 h-2 rounded-full bg-safe mr-2"></span>
                 Live
               </span>
-            )}
-            
-            {data?.alert && (
-              <div className="mt-2 text-sm">
-                Active Alert: <span className="font-bold text-white">{data.alert.mode.toUpperCase()}</span>
-              </div>
             )}
           </div>
         </header>
@@ -128,12 +119,9 @@ export default function DashboardPage() {
             </div>
           </>
         ) : (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-12 text-center text-gray-400 shadow-lg">
-            <svg className="w-16 h-16 mx-auto mb-4 text-gray-800 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <h2 className="text-2xl font-bold text-gray-300 mb-2">Standing By</h2>
-            <p className="text-sm">No active alerts. The system is monitoring for emergencies.</p>
+          <div className="bg-surface border border-line rounded-lg p-12 text-center text-muted">
+            <h2 className="text-lg font-medium text-text mb-2">No alert running.</h2>
+            <p className="text-sm">Start one from Admin.</p>
           </div>
         )}
         

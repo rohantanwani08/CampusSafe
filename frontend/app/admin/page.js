@@ -87,29 +87,31 @@ export default function AdminPage() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center py-12 px-4 font-sans transition-colors duration-500 ${mode === "real" ? "bg-red-950 text-red-50" : "bg-gray-950 text-gray-100"}`}>
-      <div className={`w-full max-w-2xl border rounded-3xl p-8 shadow-2xl transition-all duration-500 ${mode === "real" ? "bg-red-900/40 border-red-800 shadow-red-900/50" : "bg-gray-900 border-gray-800"}`}>
-        <h1 className="text-3xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 flex items-center">
-          <svg className="w-8 h-8 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-          Trigger Emergency Alert
+    <div className="min-h-screen flex flex-col items-center py-12 px-4 font-sans transition-colors duration-500 bg-bg text-text relative">
+      {/* 3px top border across page based on mode */}
+      <div className={`absolute top-0 left-0 right-0 h-[3px] z-50 ${mode === "real" ? "bg-help" : "bg-drill"}`}></div>
+
+      <div className="w-full max-w-2xl border rounded-lg p-8 transition-all duration-500 bg-surface border-line">
+        <h1 className="text-2xl font-semibold mb-8 text-text flex items-center">
+          Trigger emergency alert
         </h1>
         
         <div className="space-y-6">
           {/* Mode Toggle */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">Mode</label>
-            <div className="flex bg-gray-950 rounded-xl p-1 border border-gray-800">
+            <label className="block text-sm font-medium text-muted mb-2">Mode</label>
+            <div className="flex bg-surface-2 rounded-md p-1 border border-line">
               <button 
                 onClick={() => { setMode("drill"); setIsConfirming(false); }}
-                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${mode === "drill" ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20" : "text-gray-500 hover:text-gray-300"}`}
+                className={`flex-1 py-2 rounded font-medium transition-all duration-300 ${mode === "drill" ? "bg-drill text-surface shadow-sm" : "text-muted hover:text-text"}`}
               >
                 Drill (Test)
               </button>
               <button 
                 onClick={() => setMode("real")}
-                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${mode === "real" ? "bg-red-600 text-white shadow-lg shadow-red-500/20" : "text-gray-500 hover:text-gray-300"}`}
+                className={`flex-1 py-2 rounded font-medium transition-all duration-300 ${mode === "real" ? "bg-help text-text shadow-sm" : "text-muted hover:text-text"}`}
               >
-                REAL EMERGENCY
+                Real emergency
               </button>
             </div>
           </div>
@@ -117,13 +119,13 @@ export default function AdminPage() {
           {/* Target Group */}
           <div>
             <div className="flex justify-between mb-2">
-              <label className={`block text-sm font-semibold ${mode === "real" ? "text-red-300" : "text-gray-400"}`}>Target Group</label>
-              <span className={`text-xs font-bold ${mode === "real" ? "text-red-400" : "text-gray-500"}`}>~5 Recipients (Live)</span>
+              <label className="block text-sm font-medium text-muted">Target group</label>
+              <span className="text-xs text-muted tabular-nums">~5 Recipients (Live)</span>
             </div>
             <select 
               value={targetGroup}
               onChange={(e) => setTargetGroup(e.target.value)}
-              className={`w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-1 transition-colors ${mode === "real" ? "bg-red-950/50 border-red-800 text-white focus:border-red-400 focus:ring-red-400" : "bg-gray-950 border-gray-800 text-white focus:border-red-500 focus:ring-red-500"}`}
+              className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 transition-colors bg-bg border-line text-text focus:ring-drill"
             >
               <option value="all">All Campus</option>
               <option value="building:Library">Library</option>
@@ -135,55 +137,55 @@ export default function AdminPage() {
           {/* Message Template & Input */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className={`block text-sm font-semibold ${mode === "real" ? "text-red-300" : "text-gray-400"}`}>Message</label>
+              <label className="block text-sm font-medium text-muted">Message</label>
               <select 
                 value={template}
                 onChange={(e) => handleTemplateChange(e.target.value)}
-                className={`text-xs border rounded-lg px-2 py-1 outline-none ${mode === "real" ? "bg-red-900 border-red-700 text-red-200" : "bg-gray-800 border-gray-700 text-gray-300"}`}
+                className="text-xs border rounded px-2 py-1 outline-none bg-surface-2 border-line text-text"
               >
-                <option value="custom">Custom Template</option>
-                <option value="fire">🔥 Fire Alarm</option>
-                <option value="earthquake">🌍 Earthquake</option>
-                <option value="security">🛡 Security Threat</option>
-                <option value="evacuation">🚨 Evacuation</option>
+                <option value="custom">Custom template</option>
+                <option value="fire">Fire alarm</option>
+                <option value="earthquake">Earthquake</option>
+                <option value="security">Security threat</option>
+                <option value="evacuation">Evacuation</option>
               </select>
             </div>
             <textarea 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
-              className={`w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-1 transition-colors resize-none ${mode === "real" ? "bg-red-950/50 border-red-800 text-white focus:border-red-400 focus:ring-red-400" : "bg-gray-950 border-gray-800 text-white focus:border-red-500 focus:ring-red-500"}`}
+              className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 transition-colors resize-none bg-bg border-line text-text focus:ring-drill"
             />
-            <p className={`text-xs mt-2 font-medium ${mode === "real" ? "text-red-400" : "text-gray-500"}`}>
-              Preview: <span className="italic">🚨 CAMPUS ALERT: {message}</span>
+            <p className="text-xs mt-2 text-muted">
+              Preview: <span className="italic">CAMPUS ALERT: {message}</span>
             </p>
           </div>
 
           {statusMsg.text && (
-            <div className={`p-4 rounded-xl text-sm font-medium border ${statusMsg.type === 'error' ? 'bg-red-950/50 border-red-900/50 text-red-400' : 'bg-green-950/50 border-green-900/50 text-green-400'}`}>
+            <div className={`p-4 rounded-md text-sm font-medium border ${statusMsg.type === 'error' ? 'bg-help/14 border-help/50 text-help' : 'bg-safe/14 border-safe/50 text-safe'}`}>
               {statusMsg.text}
             </div>
           )}
 
           {/* Confirm Block */}
           {mode === "real" && isConfirming ? (
-            <div className="bg-red-950/30 border border-red-900/50 rounded-2xl p-6 mt-6">
-              <h3 className="text-red-500 font-bold mb-2">CRITICAL ACTION</h3>
-              <p className="text-sm text-gray-400 mb-4">You are about to trigger a real emergency broadcast. Type <strong className="text-white">CONFIRM</strong> to proceed.</p>
+            <div className="bg-help/14 border border-help/50 rounded-lg p-6 mt-6">
+              <h3 className="text-help font-semibold mb-2">CRITICAL ACTION</h3>
+              <p className="text-sm text-text mb-4">You are about to trigger a real emergency broadcast. Type <strong>CONFIRM</strong> to proceed.</p>
               <div className="flex space-x-3">
                 <input 
                   type="text" 
                   placeholder="CONFIRM"
                   value={confirmText}
                   onChange={(e) => setConfirmText(e.target.value)}
-                  className="flex-1 bg-gray-950 border border-red-900/50 rounded-xl px-4 py-2 text-red-500 font-bold focus:outline-none focus:border-red-500"
+                  className="flex-1 bg-bg border border-help/50 rounded-md px-4 py-2 text-text font-medium focus:outline-none focus:border-help"
                 />
                 <button 
                   onClick={handleBroadcast}
                   disabled={loading}
-                  className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded-xl transition-all shadow-lg shadow-red-600/30 disabled:opacity-50"
+                  className="bg-help hover:bg-help/80 text-text font-medium py-2 px-6 rounded-md transition-all disabled:opacity-50"
                 >
-                  {loading ? "Sending..." : "EXECUTE"}
+                  {loading ? "Sending..." : "Execute"}
                 </button>
               </div>
             </div>
@@ -191,34 +193,28 @@ export default function AdminPage() {
             <button 
               onClick={() => mode === "real" ? setIsConfirming(true) : handleBroadcast()}
               disabled={loading}
-              className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg mt-6 flex items-center justify-center ${
+              className={`w-full py-4 rounded-md font-medium text-base transition-all duration-300 mt-6 flex items-center justify-center ${
                 mode === "real" 
-                ? "bg-red-600 hover:bg-red-500 shadow-red-600/20 text-white" 
-                : "bg-blue-600 hover:bg-blue-500 shadow-blue-600/20 text-white"
+                ? "bg-help hover:bg-help/90 text-text" 
+                : "bg-drill hover:bg-drill/90 text-surface"
               } disabled:opacity-50`}
             >
               {loading ? (
-                <span className="flex items-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                  Broadcasting...
-                </span>
+                <span>Broadcasting...</span>
               ) : (
-                mode === "real" ? "TRIGGER REAL EMERGENCY" : "Start Drill"
+                mode === "real" ? "Send real alert" : "Send drill alert"
               )}
             </button>
           )}
         </div>
 
         {/* Demo Tools Section */}
-        <div className="mt-12 border-t border-gray-800 pt-6">
+        <div className="mt-12 border-t border-line pt-6">
           <button 
             onClick={() => setDemoToolsOpen(!demoToolsOpen)}
-            className="flex items-center justify-between w-full text-left text-gray-500 hover:text-gray-300 font-semibold transition-colors"
+            className="flex items-center justify-between w-full text-left text-muted hover:text-text font-medium transition-colors"
           >
-            <span>🛠 Demo Tools & Simulation</span>
-            <svg className={`w-5 h-5 transform transition-transform ${demoToolsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <span>Demo tools & simulation</span>
           </button>
           
           {demoToolsOpen && (
@@ -226,19 +222,17 @@ export default function AdminPage() {
               <button 
                 onClick={handleResetDemo}
                 disabled={loading}
-                className="bg-gray-800 hover:bg-gray-700 text-gray-300 py-3 px-4 rounded-xl text-sm font-medium transition-colors flex items-center justify-center space-x-2 border border-gray-700"
+                className="bg-surface-2 hover:bg-line text-text py-3 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center border border-line"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                <span>Reset Demo (Clean State)</span>
+                Reset demo
               </button>
               
               <button 
                 onClick={handleSimulateCrowd}
                 disabled={loading}
-                className="bg-indigo-900/50 hover:bg-indigo-800/50 text-indigo-300 py-3 px-4 rounded-xl text-sm font-medium transition-colors flex items-center justify-center space-x-2 border border-indigo-700/50"
+                className="bg-drill/14 hover:bg-drill/20 text-drill py-3 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center border border-drill/30"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                <span>Simulate Crowd (40 Users)</span>
+                Simulate crowd
               </button>
             </div>
           )}
