@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from backend.routes import alerts, recipients, events, state, call, health
+from backend.routes import alerts, recipients, events, state, call, health, sms_log
 
 app.include_router(health.router)
 app.include_router(alerts.router)
@@ -24,3 +24,4 @@ app.include_router(recipients.router)
 app.include_router(events.router)
 app.include_router(state.router)
 app.include_router(call.router)
+app.include_router(sms_log.router)

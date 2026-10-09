@@ -57,6 +57,16 @@ class Event(Base):
     payload = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+class SmsSimLog(Base):
+    __tablename__ = "sms_sim_log"
+    id = Column(Integer, primary_key=True, index=True)
+    alert_id = Column(Integer, index=True)
+    contact_id = Column(Integer, index=True)
+    step = Column(Integer) # 1-5
+    channel = Column(String) # "telegram" | "call_link"
+    text = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
 def init_db():
     Base.metadata.create_all(bind=engine)
 

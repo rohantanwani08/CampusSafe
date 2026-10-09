@@ -54,3 +54,10 @@ class N8nStatusUpdate(BaseModel):
     step: int
     event_type: str
     channel: str
+
+class SmsLogCreate(BaseModel):
+    alert_id: int
+    contact_id: int
+    step: int
+    channel: str
+    text: str

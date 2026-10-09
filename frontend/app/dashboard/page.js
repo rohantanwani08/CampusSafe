@@ -6,6 +6,7 @@ import Counters from "../../components/Counters";
 import PriorityQueue from "../../components/PriorityQueue";
 import Timeline from "../../components/Timeline";
 import RecipientTable from "../../components/RecipientTable";
+import SmsPanel from "../../components/SmsPanel";
 
 export default function DashboardPage() {
   const [data, setData] = useState(null);
@@ -87,9 +88,16 @@ export default function DashboardPage() {
           <>
             <Counters counters={data.counters} />
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              <PriorityQueue queue={data.priority_queue} />
-              <Timeline events={data.events} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+              <div className="lg:col-span-1 h-full">
+                <PriorityQueue queue={data.priority_queue} />
+              </div>
+              <div className="lg:col-span-1 h-full">
+                <Timeline events={data.events} />
+              </div>
+              <div className="lg:col-span-1 h-full">
+                <SmsPanel smsLogs={data.sms_log} />
+              </div>
             </div>
             
             <RecipientTable recipients={data.recipients} />
