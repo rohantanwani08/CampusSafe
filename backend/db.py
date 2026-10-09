@@ -27,6 +27,7 @@ class Alert(Base):
     target_group = Column(String) # 'all', 'building:X', 'list'
     created_by = Column(String, default="admin")
     created_at = Column(DateTime, default=datetime.utcnow)
+    ended_at = Column(DateTime, nullable=True)
     status = Column(String, default="ACTIVE")
 
 class AlertRecipient(Base):

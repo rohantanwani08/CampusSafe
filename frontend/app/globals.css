@@ -16,6 +16,17 @@
 
   --font-sans: var(--font-public-sans);
   --font-condensed: var(--font-barlow-condensed);
+
+  --animate-slide-in-right: slide-in-right 200ms ease-out;
+
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
 }
 
 body {

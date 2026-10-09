@@ -9,7 +9,7 @@ export default function StatusChip({ status }) {
     case 'SAFE':
       label = 'Safe';
       colorClass = 'text-safe bg-safe/14 border-safe/30';
-      Icon = () => (
+      Icon = (
         <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
         </svg>
@@ -18,7 +18,7 @@ export default function StatusChip({ status }) {
     case 'NEED_ASSISTANCE':
       label = 'Needs help';
       colorClass = 'text-help bg-help/14 border-help/50';
-      Icon = () => (
+      Icon = (
         <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
@@ -28,7 +28,7 @@ export default function StatusChip({ status }) {
       label = "Can't reach";
       // Diagonal hatch pattern uses inline style below, class just sets color
       colorClass = 'text-unreachable border-unreachable/30';
-      Icon = () => (
+      Icon = (
         <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -39,7 +39,7 @@ export default function StatusChip({ status }) {
     default:
       label = 'Waiting for reply';
       colorClass = 'text-waiting bg-waiting/14 border-waiting/30';
-      Icon = () => (
+      Icon = (
         <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -56,7 +56,7 @@ export default function StatusChip({ status }) {
       className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${colorClass}`}
       style={hatchStyle}
     >
-      {Icon && <Icon />}
+      {Icon}
       {label}
     </span>
   );

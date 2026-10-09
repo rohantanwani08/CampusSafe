@@ -43,16 +43,27 @@ def get_dashboard_state(db: Session = Depends(get_db)):
             "people_hurt": rec.people_hurt,
             "summary": rec.response_summary,
             "responded_at": rec.responded_at,
-            "resolved_via": rec.resolved_via
+            "resolved_via": rec.resolved_via,
+            "step": rec.step,
+            "last_contacted_at": rec.last_contacted_at
         }
         all_recipients.append(recipient_data)
 
-        if rec.status == "NEED_ASSISTANCE":
+        if rec.status in ("NEED_ASSISTANCE", "UNREACHABLE"):
             priority_queue.append(recipient_data)
 
-    # Sort priority queue: HIGH urgency first
+    # Sort priority queue: NEED_ASSISTANCE first, then UNREACHABLE. Within status, urgency HIGH > MED > LOW, then responded_at
     urgency_map = {"HIGH": 3, "MEDIUM": 2, "LOW": 1, None: 0}
-    priority_queue.sort(key=lambda x: urgency_map.get(x["urgency"], 0), reverse=True)
+    status_map = {"NEED_ASSISTANCE": 2, "UNREACHABLE": 1}
+    
+    priority_queue.sort(
+        key=lambda x: (
+            status_map.get(x["status"], 0),
+            urgency_map.get(x["urgency"], 0),
+            x["responded_at"].timestamp() if x["responded_at"] else 0
+        ), 
+        reverse=True
+    )
 
     # 3. Get recent events for the timeline
     events = db.query(Event).filter(Event.alert_id == alert.id).order_by(desc(Event.created_at)).limit(50).all()
@@ -84,9 +95,10 @@ def get_dashboard_state(db: Session = Depends(get_db)):
         "alert": {
             "id": alert.id,
             "mode": alert.mode,
-            "message": alert.message,
+            "title": alert.message,
             "status": alert.status,
-            "created_at": alert.created_at
+            "started_at": alert.created_at,
+            "ended_at": alert.ended_at
         },
         "counters": counters,
         "priority_queue": priority_queue,

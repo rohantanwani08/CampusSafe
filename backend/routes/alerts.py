@@ -68,3 +68,14 @@ def get_alert(alert_id: int, db: Session = Depends(get_db)):
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
     return {"id": alert.id, "mode": alert.mode, "status": alert.status}
+
+@router.post("/{alert_id}/end")
+def end_alert(alert_id: int, db: Session = Depends(get_db)):
+    alert = db.query(Alert).filter(Alert.id == alert_id).first()
+    if not alert:
+        raise HTTPException(status_code=404, detail="Alert not found")
+    
+    alert.ended_at = datetime.utcnow()
+    alert.status = "ENDED"
+    db.commit()
+    return {"status": "success", "alert_id": alert.id, "ended_at": alert.ended_at}
