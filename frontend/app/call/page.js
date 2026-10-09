@@ -186,6 +186,25 @@ function CallInterface() {
           </div>
         )}
         
+        {/* Error State */}
+        {callState === "error" && (
+          <div className="text-center">
+            <div className="w-20 h-20 bg-waiting/14 border border-waiting/50 rounded-full flex items-center justify-center mb-6 mx-auto">
+              <svg className="w-10 h-10 text-waiting" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h2 className="text-2xl font-semibold text-text mb-2">Connection Error</h2>
+            <p className="text-muted mb-4 max-w-xs mx-auto">
+              The AI Agent failed to connect. This usually happens if the agent ID is invalid, or if your ElevenLabs account is out of credits.
+            </p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="bg-surface-2 hover:bg-line text-text font-medium py-2 px-6 rounded-md transition-all border border-line"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
         {micPermissionError && (
           <div className="bg-waiting/14 border border-waiting/50 rounded-md p-4 text-waiting text-sm text-center mb-8 w-full">
             Microphone access is required. Please allow it in your browser settings.

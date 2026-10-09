@@ -43,7 +43,7 @@ def simulate_crowd_task(alert_id: int, db: Session):
         building = random.choice(buildings)
         
         c = Contact(id=i, name=name, telegram_chat_id=f"fake_{i}", building=building)
-        db.add(c)
+        db.merge(c)
         db.commit()
         
         r = AlertRecipient(
