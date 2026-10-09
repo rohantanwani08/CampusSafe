@@ -16,9 +16,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/health")
-def health_check():
-    """
-    Health check endpoint to wake up Render instances.
-    """
-    return {"status": "healthy"}
+from backend.routes import alerts, recipients, events, state, call, health
+
+app.include_router(health.router)
+app.include_router(alerts.router)
+app.include_router(recipients.router)
+app.include_router(events.router)
+app.include_router(state.router)
+app.include_router(call.router)
